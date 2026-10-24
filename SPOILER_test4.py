@@ -22,8 +22,7 @@ while cap.isOpened():
     faces = face_cascade.detectMultiScale(frame1, 1.1, 4)
     for (x, y, w, h) in faces:
         cv2.rectangle(frame1, (x, y), (x+w, y+h), (255, 0, 0), 2)
-    # Display
-
+    
     if((x1-x) > 20 and abs(y1-y) < 20):
         print("right")
         x1 = x
@@ -44,7 +43,10 @@ while cap.isOpened():
         pyautogui.keyUp('up')
     cv2.imshow("FEED", frame1)
     frame1 = frame2
-    _, frame2 = cap.read()
+    ret, frame2 = cap.read()
+    if not ret:
+        break
+    frame2 = cv2.flip(frame2, 1)
     if cv2.waitKey(1) == 13:
         break
 
